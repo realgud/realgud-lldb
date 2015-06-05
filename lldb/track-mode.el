@@ -16,14 +16,13 @@
 ;; lldb tracking a comint or eshell buffer.
 
 (eval-when-compile (require 'cl))
+
 (require 'load-relative)
-(require-relative-list '(
-			 "../../common/cmds"
-			 "../../common/menu"
-			 "../../common/track"
-			 "../../common/track-mode"
-			 )
-		       "realgud-")
+(require 'realgud-cmds)
+(require 'realgud-menu)
+(require 'realgud-track)
+(require 'realgud-track-mode)
+
 (require-relative-list '("core" "init") "realgud:lldb-")
 
 (realgud-track-mode-vars "realgud:lldb")
