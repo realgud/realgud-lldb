@@ -15,9 +15,7 @@
 
 (eval-when-compile (require 'cl))
 
-(require 'load-relative)
-(require 'realgud-regexp)
-(require 'realgud-loc)
+(require 'realgud)
 
 (defvar realgud-pat-hash)
 (declare-function make-realgud-loc-pat (realgud-loc))

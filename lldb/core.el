@@ -13,10 +13,7 @@
 
 (eval-when-compile (require 'cl))
 
-(require 'load-relative)
 (require 'realgud)
-(require 'realgud-core)
-(require 'realgud-lang)
 
 (declare-function realgud:expand-file-name-if-exists 'realgud-core)
 (declare-function realgud-lang-mode? 'realgud-lang)

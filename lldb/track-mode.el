@@ -17,11 +17,7 @@
 
 (eval-when-compile (require 'cl))
 
-(require 'load-relative)
-(require 'realgud-cmds)
-(require 'realgud-menu)
-(require 'realgud-track)
-(require 'realgud-track-mode)
+(require 'realgud)
 
 (require-relative-list '("core" "init") "realgud:lldb-")
 
