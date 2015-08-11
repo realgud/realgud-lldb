@@ -14,7 +14,7 @@
 (eval-when-compile (require 'cl))
 
 (require 'load-relative)
-(require 'realgud-track)
+(require 'realgud)
 (require 'realgud-core)
 (require 'realgud-lang)
 
