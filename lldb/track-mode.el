@@ -1,4 +1,5 @@
 ;; Copyright (C) 2016 Rocky Bernstein
+;;; track-mode.el ---
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -57,7 +58,7 @@ Key bindings:
         (realgud:lldb-track-mode-hook)
         (realgud:track-mode-enable))
     (progn
-      (setq realgud-track-mode nil)
+      (setq realgud::lldb-track-mode nil)
       ))
 )
 

@@ -32,21 +32,37 @@ realgud-loc-pat struct")
 (defconst realgud:lldb-frame-file-regexp
   (format "\\(.+\\):%s" realgud:regexp-captured-num))
 
+(defconst realgud:lldb-frame-start-regexp
+  "\\(?:^\\|\n\\)")
+
+(defconst realgud:lldb-frame-num-regexp
+  (format "#%s " realgud:regexp-captured-num))
+
 ;; Regular expression that describes a lldb location generally shown
 ;; before a command prompt. NOTE: we assume annotate 1!
 ;; For example:
-;; /src/build/ruby-2.1.5/main.c:24:454:beg:0x55555557659f
+;; * thread #1: tid = 12866, 0x00000000004004b4 hello`main(argc=1, argv=0x00007fffffffd668) + 4 at hello.c:5, name = 'hello', stop reason = breakpoint 1.1
+;; (setf (gethash "loc" realgud:lldb-pat-hash)
+;;       (make-realgud-loc-pat
+;;        :regexp (format "^\\* thread #%s: .+ at %s, "
+;; 		       realgud:regexp-captured-num realgud:lldb-frame-file-regexp)
+;;        :file-group 2
+;;        :line-group 3))
 (setf (gethash "loc" realgud:lldb-pat-hash)
       (make-realgud-loc-pat
-       :regexp (format "^%s:%s:beg:0x\\([0-9a-f]+\\)"
-		       realgud:lldb-frame-file-regexp realgud:regexp-captured-num)
-       :file-group 1
-       :line-group 2
-       :char-offset-group 3))
+       :regexp 	(concat "^" realgud:lldb-frame-start-regexp
+			realgud:lldb-frame-num-regexp
+			"\\(?:.\\|\\(?:[\n] \\)\\)+[ ]+at "
+			realgud:lldb-frame-file-regexp
+			)
+       :num 1
+       :file-group 2
+       :line-group 3)
+      )
 
 ;; Regular expression that describes a lldb prompt
 ;; For example:
-;;   (gdb)
+;;   (lldb)
 (setf (gethash "prompt" realgud:lldb-pat-hash)
       (make-realgud-loc-pat
        :regexp   "^(lldb) "
@@ -54,20 +70,14 @@ realgud-loc-pat struct")
 
 ;; Regular expression that describes a "breakpoint set" line
 ;; For example:
-;;   Breakpoint 1, main (argc=1, argv=0x7fffffffdbd8) at main.c:24
+;;   Breakpoint 1: where = hello`main + 4 at hello.c:5, address = 0x00000000004004b4
 (setf (gethash "brkpt-set" realgud:lldb-pat-hash)
       (make-realgud-loc-pat
-       :regexp (format "^Breakpoint %s at 0x\\([0-9a-f]*\\): file \\(.+\\), line %s.\n"
+       :regexp (format "^Breakpoint %s: .* at \\(.+\\):%s, "
 		       realgud:regexp-captured-num realgud:regexp-captured-num)
        :num 1
-       :file-group 3
-       :line-group 4))
-
-(defconst realgud:lldb-frame-start-regexp
-  "\\(?:^\\|\n\\)")
-
-(defconst realgud:lldb-frame-num-regexp
-  (format "#%s " realgud:regexp-captured-num))
+       :file-group 2
+       :line-group 3))
 
 ;; Regular expression that describes a lldb "backtrace" command line.
 ;; For example:
@@ -107,17 +117,23 @@ realgud-loc-pat struct")
 
 (setf (gethash "lldb" realgud-pat-hash) realgud:lldb-pat-hash)
 
+;;  Prefix used in variable names (e.g. short-key-mode-map) for
+;; this debugger
+(setf (gethash "lldb" realgud:variable-basename-hash) "realgud:lldb")
+
 (defvar realgud:lldb-command-hash (make-hash-table :test 'equal)
   "Hash key is command name like 'continue' and the value is
   the lldb command to use, like 'process continue'")
 
 (setf (gethash "break"    realgud:lldb-command-hash) "b %l")
-(setf (gethash "clear"    realgud:lldb-command-hash) "clear %l")
+(setf (gethash "delete"   realgud:lldb-command-hash) "break delete %p")
+(setf (gethash "clear"    realgud:lldb-command-hash) "break clear %X:%l")
 (setf (gethash "continue" realgud:lldb-command-hash) "process continue")
 (setf (gethash "eval"     realgud:lldb-command-hash) "print %s")
+(setf (gethash "finish"   realgud:lldb-command-hash) "thread step out")
 (setf (gethash "quit"     realgud:lldb-command-hash) "quit")
 (setf (gethash "run"      realgud:lldb-command-hash) "run")
-(setf (gethash "step"     realgud:lldb-command-hash) "thread step --count %p")
+(setf (gethash "step"     realgud:lldb-command-hash) "thread step-in --count %p")
 (setf (gethash "lldb" realgud-command-hash) realgud:lldb-command-hash)
 
 (setf (gethash "lldb" realgud-pat-hash) realgud:lldb-pat-hash)
