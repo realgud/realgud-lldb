@@ -1,3 +1,5 @@
+;; Copyright (C) 2016 Rocky Bernstein
+
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
@@ -14,24 +16,20 @@
 ;;  `realgud:lldb' Main interface to lldb via Emacs
 (require 'cl)
 (require 'load-relative)
-(require-relative-list '("../../common/helper" "../../common/utils")
-		       "realgud-")
-(require-relative-list '("core" "track-mode") "realgud:lldb-")
 
 ;; This is needed, or at least the docstring part of it is needed to
 ;; get the customization menu to work in Emacs 24.
 (defgroup realgud:lldb nil
   "The realgud interface to lldb"
   :group 'realgud
-  :version "24.1")
+  :version "24.3")
 
 ;; -------------------------------------------------------------------
 ;; User definable variables
 ;;
 
 (defcustom realgud:lldb-command-name
-  ;;"lldb
-  "gdb"
+  "lldb"
   "File name for executing the and command options.
 This should be an executable on your path, or an absolute file name."
   :type 'string
@@ -79,7 +77,7 @@ fringe and marginal icons.
 	 )
     (if cmd-buf
 	(with-current-buffer cmd-buf
-	  (realgud-command "set annotate 1" nil nil nil)
+	  ; (realgud-command "set annotate 1" nil nil nil)
 	  )
       )
     )

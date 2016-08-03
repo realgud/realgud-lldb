@@ -1,3 +1,5 @@
+;; Copyright (C) 2016 Rocky Bernstein
+
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
@@ -48,7 +50,7 @@ We return the a list containing
 * the name of the debugger given (e.g. lldb) and its arguments - a list of strings
 * nil (a placehoder in other routines of this ilk for a debugger
 * the script name and its arguments - list of strings
-* whether the annotate or emacs option was given ('-A', '--annotate' or '--emacs) - a boolean
+* whether the emacs option was given ('--emacs) - a boolean
 
 For example for the following input
   (map 'list 'symbol-name
@@ -70,7 +72,6 @@ Note that path elements have been expanded via `expand-file-name'.
 	;; h is really -h and -host is really --host.
 	(lldb-two-args '("x" "-command" "b" "-exec"
 			"cd" "-pid"  "-core" "-directory"
-			"-annotate"
 			"se" "-symbols" "-tty"))
 	;; lldb doesn't optionsl 2-arg options.
 	(lldb-opt-two-args '())
@@ -102,15 +103,6 @@ Note that path elements have been expanded via `expand-file-name'.
 	(while (and args (not script-name))
 	  (let ((arg (car args)))
 	    (cond
-	     ;; Annotation or emacs option with level number.
-	     ((or (member arg '("--annotate" "-A"))
-		  (equal arg "--emacs"))
-	      (setq annotate-p t)
-	      (nconc debugger-args (list (pop args) (pop args))))
-	     ;; Combined annotation and level option.
-	     ((string-match "^--annotate=[0-9]" arg)
-	      (nconc debugger-args (list (pop args) (pop args)) )
-	      (setq annotate-p t))
 	     ;; path-argument ooptions
 	     ((member arg '("-cd" ))
 	      (setq arg (pop args))

@@ -1,6 +1,6 @@
 (require 'test-simple)
 (require 'load-relative)
-(require 'realgud-buffer-command)
+(require 'realgud)
 (load-file "../lldb/init.el")
 (load-file "./regexp-helper.el")
 
@@ -18,7 +18,7 @@
 ; Some setup usually done in setting up the buffer.
 ; We customize this for this debugger.
 ; FIXME: encapsulate this.
-(setq dbg-name "gdb")
+(setq dbg-name "lldb")
 
 (setq loc-pat (gethash "loc" (gethash dbg-name realgud-pat-hash)))
 (setq test-dbgr (make-realgud-cmdbuf-info

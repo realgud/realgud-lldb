@@ -1,3 +1,5 @@
+;; Copyright (C) 2016 Rocky Bernstein
+
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
 ;; the Free Software Foundation, either version 3 of the License, or
@@ -107,15 +109,15 @@ realgud-loc-pat struct")
 
 (defvar realgud:lldb-command-hash (make-hash-table :test 'equal)
   "Hash key is command name like 'continue' and the value is
-  the lldb command to use, like 'continue'")
+  the lldb command to use, like 'process continue'")
 
-(setf (gethash "break"    realgud:lldb-command-hash) "break %l")
+(setf (gethash "break"    realgud:lldb-command-hash) "b %l")
 (setf (gethash "clear"    realgud:lldb-command-hash) "clear %l")
-(setf (gethash "continue" realgud:lldb-command-hash) "continue")
+(setf (gethash "continue" realgud:lldb-command-hash) "process continue")
 (setf (gethash "eval"     realgud:lldb-command-hash) "print %s")
 (setf (gethash "quit"     realgud:lldb-command-hash) "quit")
 (setf (gethash "run"      realgud:lldb-command-hash) "run")
-(setf (gethash "step"     realgud:lldb-command-hash) "step %p")
+(setf (gethash "step"     realgud:lldb-command-hash) "thread step --count %p")
 (setf (gethash "lldb" realgud-command-hash) realgud:lldb-command-hash)
 
 (setf (gethash "lldb" realgud-pat-hash) realgud:lldb-pat-hash)
