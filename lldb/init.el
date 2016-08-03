@@ -39,7 +39,7 @@ realgud-loc-pat struct")
   (format "#%s " realgud:regexp-captured-num))
 
 ;; Regular expression that describes a lldb location generally shown
-;; before a command prompt. NOTE: we assume annotate 1!
+;; before a command prompt.
 ;; For example:
 ;; * thread #1: tid = 12866, 0x00000000004004b4 hello`main(argc=1, argv=0x00007fffffffd668) + 4 at hello.c:5, name = 'hello', stop reason = breakpoint 1.1
 ;; (setf (gethash "loc" realgud:lldb-pat-hash)

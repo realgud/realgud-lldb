@@ -69,12 +69,12 @@ Note that path elements have been expanded via `expand-file-name'.
 	(pair)          ;; temp return from
 
 	;; One dash is added automatically to the below, so
-	;; h is really -h and -host is really --host.
-	(lldb-two-args '("x" "-command" "b" "-exec"
-			"cd" "-pid"  "-core" "-directory"
-			"se" "-symbols" "-tty"))
-	;; lldb doesn't optionsl 2-arg options.
-	(lldb-opt-two-args '())
+	;; a is really -a. lldb doesn't seem to have long
+	;; (--) options.
+	(lldb-two-args '("a" "f" "c" "s" "o" "S" "k" "L"
+			"p" "O"  "K"))
+	;; lldb doesn't optional 2-arg options.
+	(lldb-opt-two-args '("r"))
 
 	;; Things returned
 	(script-name nil)
