@@ -35,8 +35,10 @@ realgud-loc-pat struct")
 (defconst realgud:lldb-frame-start-regexp
   "\\(?:^\\|\n\\)")
 
+;; Some versions of lldb insert "frame" and some don't.
 (defconst realgud:lldb-frame-num-regexp
-  (format "[ ]*frame #%s: " realgud:regexp-captured-num))
+  (format "[ ]*\\(?:frame \\)?#%s[:]? "
+	  realgud:regexp-captured-num realgud:regexp-captured-num))
 
 ;; realgud-loc-pat that describes a lldb location generally shown
 ;; before a command prompt.
@@ -52,12 +54,14 @@ realgud-loc-pat struct")
 ;; realgud-loc-pat that describes a lldb frame generally shown
 ;; before a command prompt or in frame switching commands
 ;;  frame #1: 0x00000000004015e2 ctest`main(argc=1, argv=0x00007fffffffd778) + 90 at ctest.c:83
+;; Some versions of lldb give:
+;; #0  main (argc=2, argv=0xbffff564, envp=0xbffff570) at main.c:935
+;; instead
 
 (setf (gethash "selected-frame" realgud:lldb-pat-hash)
       (make-realgud-loc-pat
-       :regexp 	(concat "^" realgud:lldb-frame-start-regexp
+       :regexp 	(format "^%s.* at %s"
 			realgud:lldb-frame-num-regexp
-			".*[ ]+at "
 			realgud:lldb-frame-file-regexp
 			)
        :num 1

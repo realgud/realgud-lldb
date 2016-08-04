@@ -30,20 +30,20 @@
 ;; FIXME: we get a void variable somewhere in here when running
 ;;        even though we define it in lexical-let. Dunno why.
 ;;        setq however will workaround this.
-(setq test-text "/home/rocky/c/ctest.c:80:2000:beg:0x8048748>")
-(note "traceback location matching")
+;; (setq test-text "/home/rocky/c/ctest.c:80:2000:beg:0x8048748>")
+;; (note "traceback location matching")
 
-(assert-t (numberp (cmdbuf-loc-match test-text test-dbgr)) "basic location")
-(assert-equal "/home/rocky/c/ctest.c"
-	      (match-string (realgud-cmdbuf-info-file-group test-dbgr)
-			    test-text) "extract file name")
-(assert-equal "80"
-	      (match-string (realgud-cmdbuf-info-line-group test-dbgr)
-			    test-text) "extract line number")
+;; (assert-t (numberp (cmdbuf-loc-match test-text test-dbgr)) "basic location")
+;; (assert-equal "/home/rocky/c/ctest.c"
+;; 	      (match-string (realgud-cmdbuf-info-file-group test-dbgr)
+;; 			    test-text) "extract file name")
+;; (assert-equal "80"
+;; 	      (match-string (realgud-cmdbuf-info-line-group test-dbgr)
+;; 			    test-text) "extract line number")
 (note "debugger-backtrace")
 (setq realgud-bt-pat  (gethash "debugger-backtrace"
 			    realgud:gdb-pat-hash))
-(setq s1
+(setq test-text
       "#0  main (argc=2, argv=0xbffff564, envp=0xbffff570) at main.c:935
 #1  0xb7e9f4a5 in *__GI___strdup (s=0xbffff760 \"/tmp/remake/remake\") at strdup.c:42
 #2  0x080593ac in main (argc=2, argv=0xbffff5a4, envp=0xbffff5b0)
@@ -54,49 +54,49 @@
 (setq realgud-bt-re (realgud-loc-pat-regexp realgud-bt-pat))
 (setq file-group (realgud-loc-pat-file-group realgud-bt-pat))
 (setq line-group (realgud-loc-pat-line-group realgud-bt-pat))
-(assert-equal 0 (string-match realgud-bt-re s1))
+(assert-equal 0 (string-match realgud-bt-re test-text))
 (assert-equal "main.c"
-	      (substring s1
+	      (substring test-text
 			 (match-beginning file-group)
 			 (match-end file-group)))
 (assert-equal "935"
-	      (substring s1
+	      (substring test-text
 			 (match-beginning line-group)
 			 (match-end line-group)))
 
 (setq pos (match-end 0))
 (assert-equal 65 pos)
-(assert-equal 65 (string-match realgud-bt-re s1 pos))
+(assert-equal 65 (string-match realgud-bt-re test-text pos))
 (assert-equal "strdup.c"
-	      (substring s1
+	      (substring test-text
 			 (match-beginning file-group)
 			 (match-end file-group)))
 (assert-equal "42"
-	      (substring s1
+	      (substring test-text
 			 (match-beginning line-group)
 			 (match-end line-group)))
 
 (setq pos (match-end 0))
 (assert-equal 149 pos)
-(assert-equal 149 (string-match realgud-bt-re s1 pos))
+(assert-equal 149 (string-match realgud-bt-re test-text pos))
 (assert-equal "main.c"
-	      (substring s1
+	      (substring test-text
 			 (match-beginning file-group)
 			 (match-end file-group)))
 (assert-equal "952"
-	      (substring s1
+	      (substring test-text
 			 (match-beginning line-group)
 			 (match-end line-group)))
 
 (setq pos (match-end 0))
 (assert-equal 233 pos)
-(assert-equal 233 (string-match realgud-bt-re s1 pos))
+(assert-equal 233 (string-match realgud-bt-re test-text pos))
 (assert-equal "vm_insnhelper.c"
-	      (substring s1
+	      (substring test-text
 			 (match-beginning file-group)
 			 (match-end file-group)))
 (assert-equal "410"
-	      (substring s1
+	      (substring test-text
 			 (match-beginning line-group)
 			 (match-end line-group)))
 
