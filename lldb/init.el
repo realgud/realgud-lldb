@@ -51,6 +51,9 @@ realgud-loc-pat struct")
        :file-group 2
        :line-group 3))
 
+;; Top frame number
+(setf (gethash "top-frame-num" realgud:lldb-pat-hash) 0)
+
 ;; realgud-loc-pat that describes a lldb frame generally shown
 ;; before a command prompt or in frame switching commands
 ;;  frame #1: 0x00000000004015e2 ctest`main(argc=1, argv=0x00007fffffffd778) + 90 at ctest.c:83
