@@ -38,7 +38,7 @@ realgud-loc-pat struct")
 (defconst realgud:lldb-frame-num-regexp
   (format "[ ]*frame #%s: " realgud:regexp-captured-num))
 
-;; Regular expression that describes a lldb location generally shown
+;; realgud-loc-pat that describes a lldb location generally shown
 ;; before a command prompt.
 ;; For example:
 ;; * thread #1: tid = 12866, 0x00000000004004b4 hello`main(argc=1, argv=0x00007fffffffd668) + 4 at hello.c:5, name = 'hello', stop reason = breakpoint 1.1
@@ -48,6 +48,10 @@ realgud-loc-pat struct")
 		       realgud:regexp-captured-num realgud:lldb-frame-file-regexp)
        :file-group 2
        :line-group 3))
+
+;; realgud-loc-pat that describes a lldb frame generally shown
+;; before a command prompt or in frame switching commands
+;;  frame #1: 0x00000000004015e2 ctest`main(argc=1, argv=0x00007fffffffd778) + 90 at ctest.c:83
 
 (setf (gethash "selected-frame" realgud:lldb-pat-hash)
       (make-realgud-loc-pat
@@ -61,7 +65,7 @@ realgud-loc-pat struct")
        :line-group 3)
       )
 
-;; Regular expression that describes a lldb prompt
+;; realgud-loc-pat that describes a lldb prompt
 ;; For example:
 ;;   (lldb)
 (setf (gethash "prompt" realgud:lldb-pat-hash)
@@ -69,7 +73,7 @@ realgud-loc-pat struct")
        :regexp   "^(lldb) "
        ))
 
-;; Regular expression that describes a "breakpoint set" line
+;; realgud-loc-pat that describes a "breakpoint set" line
 ;; For example:
 ;;   Breakpoint 1: where = hello`main + 4 at hello.c:5, address = 0x00000000004004b4
 (setf (gethash "brkpt-set" realgud:lldb-pat-hash)
@@ -80,7 +84,7 @@ realgud-loc-pat struct")
        :file-group 2
        :line-group 3))
 
-;; Regular expression that describes a lldb "backtrace" command line.
+;; realgud-loc-pat that describes a lldb "backtrace" command line.
 ;; For example:
 ;; #0  main (argc=2, argv=0xbffff564, envp=0xbffff570) at main.c:935
 ;; #1  0xb7e9f4a5 in *__GI___strdup (s=0xbffff760 "/tmp/remake/remake") at strdup.c:42
