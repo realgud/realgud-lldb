@@ -36,23 +36,24 @@ realgud-loc-pat struct")
   "\\(?:^\\|\n\\)")
 
 (defconst realgud:lldb-frame-num-regexp
-  (format "#%s " realgud:regexp-captured-num))
+  (format "[ ]*frame #%s: " realgud:regexp-captured-num))
 
 ;; Regular expression that describes a lldb location generally shown
 ;; before a command prompt.
 ;; For example:
 ;; * thread #1: tid = 12866, 0x00000000004004b4 hello`main(argc=1, argv=0x00007fffffffd668) + 4 at hello.c:5, name = 'hello', stop reason = breakpoint 1.1
-;; (setf (gethash "loc" realgud:lldb-pat-hash)
-;;       (make-realgud-loc-pat
-;;        :regexp (format "^\\* thread #%s: .+ at %s, "
-;; 		       realgud:regexp-captured-num realgud:lldb-frame-file-regexp)
-;;        :file-group 2
-;;        :line-group 3))
 (setf (gethash "loc" realgud:lldb-pat-hash)
+      (make-realgud-loc-pat
+       :regexp (format "^\\* thread #%s: .+ at %s, "
+		       realgud:regexp-captured-num realgud:lldb-frame-file-regexp)
+       :file-group 2
+       :line-group 3))
+
+(setf (gethash "selected-frame" realgud:lldb-pat-hash)
       (make-realgud-loc-pat
        :regexp 	(concat "^" realgud:lldb-frame-start-regexp
 			realgud:lldb-frame-num-regexp
-			"\\(?:.\\|\\(?:[\n] \\)\\)+[ ]+at "
+			".*[ ]+at "
 			realgud:lldb-frame-file-regexp
 			)
        :num 1

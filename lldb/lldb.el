@@ -16,6 +16,8 @@
 ;;  `realgud:lldb' Main interface to lldb via Emacs
 (require 'cl)
 (require 'load-relative)
+(require 'realgud)
+(require-relative-list '("core" "track-mode") "realgud:lldb-")
 
 ;; This is needed, or at least the docstring part of it is needed to
 ;; get the customization menu to work in Emacs 24.
