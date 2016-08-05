@@ -2,8 +2,8 @@
 
 ;; Author: Rocky Bernstein
 ;; Version: 1.0
-;; Package-Requires: ((realgud "1.4.2"))
-;; URL: http://github.com/rocky/realgud-byebug
+;; Package-Requires: ((realgud "1.4.2") (cl-lib "0.5") (emacs "24"))
+;; URL: http://github.com/rocky/realgud-lldb
 ;; Compatibility: GNU Emacs 24.x
 
 ;; Copyright (C) 2015, 2016 Free Software Foundation, Inc
