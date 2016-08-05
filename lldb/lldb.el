@@ -14,7 +14,6 @@
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 ;;  `realgud:lldb' Main interface to lldb via Emacs
-(require 'cl)
 (require 'load-relative)
 (require 'realgud)
 (require-relative-list '("core" "track-mode") "realgud:lldb-")
