@@ -25,7 +25,7 @@
 
 ;;; Commentary:
 
-;; realgud support for the Ruby byebug debugger
+;; realgud support for the LLVM's debugger lldb
 
 ;;; Code:
 
