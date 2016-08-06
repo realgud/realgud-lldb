@@ -1,5 +1,5 @@
 (require 'test-simple)
-(require 'realgud-buffer-command)
+(require 'realgud)
 
 (eval-when-compile
   (defvar helper-bps)
