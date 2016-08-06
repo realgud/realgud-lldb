@@ -1,3 +1,6 @@
+lisp_files = $(wildcard *.el)
+EXTRA_DIST = $(lisp_files)
+lisp_LISP = $(lisp_files)
 include $(top_srcdir)/common.mk
 
 PHONY=check test all check-elget test-elget help
