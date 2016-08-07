@@ -35,7 +35,7 @@
 
 (require 'load-relative)
 
-(defgroup realgud-byebug  nil
+(defgroup realgud-lldb  nil
   "Realgud interface to lldb"
   :group 'realgud
   :version "24.3")
