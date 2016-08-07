@@ -41,6 +41,41 @@
    'realgud:lldb-minibuffer-history
    opt-debugger))
 
+(defvar realgud:lldb-file-remap (make-hash-table :test 'equal)
+  "How to remap lldb files in  when we otherwise can't find in
+  the filesystem. The hash key is the file string we saw, and the
+  value is associated filesystem string presumably in the
+  filesystem")
+
+(defun realgud:lldb-find-file(filename)
+  "A find-file specific for lldb. We use `global' to map a
+name to a filename. Failing that
+we will prompt for a mapping and save that in `realgud:lldb-file-remap' when
+that works."
+  (let ((resolved-filename filename)
+	(global-output)
+	(remapped-filename (gethash filename realgud:lldb-file-remap)))
+    (cond
+     ((and remapped-filename (stringp remapped-filename)
+	   (file-exists-p remapped-filename)) remapped-filename)
+     ((file-exists-p filename) filename)
+     ((and (setq resolved-filename (shell-command-to-string (format "global -P %s" filename)))
+	   (stringp resolved-filename)
+	   (file-exists-p (setq resolved-filename (realgud:strip resolved-filename))))
+     	(puthash filename resolved-filename realgud:lldb-file-remap))
+     ('t
+      (setq resolved-filename
+	    (buffer-file-name
+	     (compilation-find-file (point-marker) filename nil "")))
+      (puthash filename resolved-filename realgud:lldb-file-remap)))
+     ))
+
+(defun realgud:lldb-loc-fn-callback(text filename lineno source-str
+					 ignore-file-re cmd-mark)
+  (realgud:file-loc-from-line filename lineno
+			      cmd-mark source-str nil
+			      ignore-file-re 'realgud:lldb-find-file))
+
 (defun realgud:lldb-parse-cmd-args (orig-args)
   "Parse command line ARGS for the annotate level and name of script to debug.
 
