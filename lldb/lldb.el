@@ -78,6 +78,7 @@ fringe and marginal icons.
 	 )
     (if cmd-buf
 	(with-current-buffer cmd-buf
+	  (set (make-local-variable 'realgud:lldb-file-remap))
 	  (realgud:remove-ansi-schmutz)
 	  )
       )
