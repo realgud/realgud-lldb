@@ -41,6 +41,7 @@
   :version "24.3")
 
 (require-relative-list '( "./lldb/lldb" ) "realgud-")
+(load-relative "./lldb/lldb.el")
 
 (provide-me)
 
