@@ -38,7 +38,9 @@ realgud-loc-pat struct")
 ;; Some versions of lldb insert "frame" and some don't.
 (defconst realgud:lldb-frame-num-regexp
   (format "[ ]*\\(?:frame \\)?#%s[:]? "
-	  realgud:regexp-captured-num realgud:regexp-captured-num))
+	  realgud:regexp-captured-num))
+
+(setf (gethash "loc-callback-fn" realgud:lldb-pat-hash) 'realgud:lldb-loc-fn-callback)
 
 ;; realgud-loc-pat that describes a lldb location generally shown
 ;; before a command prompt.

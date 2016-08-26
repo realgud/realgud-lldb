@@ -37,11 +37,12 @@ This should be an executable on your path, or an absolute file name."
   :group 'realgud:lldb)
 
 (declare-function realgud:lldb-track-mode     'realgud:lldb-track-mode)
-(declare-function realgud-command            'realgud:lldb-core)
+(declare-function realgud-command             'realgud:lldb-core)
 (declare-function realgud:lldb-parse-cmd-args 'realgud:lldb-core)
 (declare-function realgud:lldb-query-cmdline  'realgud:lldb-core)
-(declare-function realgud:run-process        'realgud-core)
-(declare-function realgud:flatten            'realgud-utils)
+(declare-function realgud:run-process         'realgud-core)
+(declare-function realgud:flatten             'realgud-utils)
+(declare-function realgud:remove-ansi-schmutz 'realgud-utils)
 
 ;; -------------------------------------------------------------------
 ;; The end.
@@ -62,7 +63,6 @@ buffers and source buffers which may contain marks and fringe or
 marginal icons is reset. See `loc-changes-clear-buffer' to clear
 fringe and marginal icons.
 "
-
   (interactive)
   (let* ((cmd-str (or opt-cmd-line (realgud:lldb-query-cmdline "lldb")))
 	 (cmd-args (split-string-and-unquote cmd-str))
@@ -78,7 +78,8 @@ fringe and marginal icons.
 	 )
     (if cmd-buf
 	(with-current-buffer cmd-buf
-	  ; (realgud-command "set annotate 1" nil nil nil)
+	  (set (make-local-variable 'realgud:lldb-file-remap))
+	  (realgud:remove-ansi-schmutz)
 	  )
       )
     )

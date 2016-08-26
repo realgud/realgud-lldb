@@ -1,4 +1,4 @@
-* Have `realgud` installed.
+* Have `realgud` and `test-simple` installed.
 * From inside emacs, evaluate:
 ```lisp
   (compile (format "EMACSLOADPATH=:%s:%s ./autogen.sh" (file-name-directory (locate-library "test-simple.elc")) (file-name-directory (locate-library "realgud.elc"))))

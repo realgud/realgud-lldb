@@ -2,7 +2,7 @@
 
 ;; Author: Rocky Bernstein
 ;; Version: 1.0
-;; Package-Requires: ((realgud "1.4.2") (cl-lib "0.5") (emacs "24"))
+;; Package-Requires: ((realgud "1.4.2") (emacs "24"))
 ;; URL: http://github.com/rocky/realgud-lldb
 ;; Compatibility: GNU Emacs 24.x
 
@@ -35,7 +35,7 @@
 
 (require 'load-relative)
 
-(defgroup realgud-byebug  nil
+(defgroup realgud-lldb  nil
   "Realgud interface to lldb"
   :group 'realgud
   :version "24.3")
