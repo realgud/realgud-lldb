@@ -3,10 +3,6 @@ EXTRA_DIST = $(lisp_files)
 lisp_LISP = $(lisp_files)
 include $(top_srcdir)/common.mk
 
-lisp_files = $(wildcard *.el)
-EXTRA_DIST=$(lisp_files)
-
-
 PHONY=check test all check-elget test-elget help
 
 #: overall help on running the make targets
