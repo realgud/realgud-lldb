@@ -129,8 +129,6 @@ realgud-loc-pat struct")
 	 (1 realgud-backtrace-number-face))
 	))
 
-(setf (gethash "lldb" realgud-pat-hash) realgud:lldb-pat-hash)
-
 ;;  Prefix used in variable names (e.g. short-key-mode-map) for
 ;; this debugger
 (setf (gethash "lldb" realgud:variable-basename-hash) "realgud:lldb")

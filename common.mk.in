@@ -7,7 +7,7 @@ short:
 %.short:
 	$(MAKE) $(@:.short=) 2>&1 >/dev/null
 
-# This is the default taget but We need to include an EMACLOADPATH
+# This is the default target but We need to include an EMACSLOADPATH
 .el.elc:
 	if test "$(EMACS)" != "no"; then \
 	  am__dir=. am__subdir_includes=''; \
@@ -17,7 +17,7 @@ short:
 	  esac; \
 	  test -d "$$am__dir" || $(MKDIR_P) "$$am__dir" || exit 1; \
 	  EMACSLOADPATH=$(EMACSLOADPATH) $(EMACS) --batch \
-	    $(AM_ELCFLAGS) $(ELCFLAGS) \
+	    $(AM_ELCFLAGS) --eval "(progn(package-initialize))" \
 	    $$am__subdir_includes -L $(builddir) -L $(srcdir) \
 	    --eval "(defun byte-compile-dest-file (f) \"$@\")" \
 	    --eval "(unless (byte-compile-file \"$<\") (kill-emacs 1))"; \
