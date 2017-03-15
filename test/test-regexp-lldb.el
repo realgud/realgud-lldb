@@ -1,3 +1,6 @@
+;; Press C-x C-e at the end of the next line to run this file test non-interactively
+;; (test-simple-run "emacs -batch -L %s -L %s -l %s" (file-name-directory (locate-library "test-simple.elc")) (file-name-directory (locate-library "realgud.elc")) buffer-file-name)
+
 (require 'test-simple)
 (require 'load-relative)
 (require 'realgud)
@@ -10,8 +13,8 @@
 
 (eval-when-compile
   (defvar dbg-name)   (defvar realgud-pat-hash)   (defvar realgud-bt-hash)
-  (defvar loc-pat)    (defvar prompt-pat)         (defvar s1)
-  (defvar file-group) (defvar line-group)         (defvar pos)
+  (defvar loc-pat)    (defvar prompt-pat)
+  (defvar file-group) (defvar line-group)         (defvar test-pos)
   (defvar test-dbgr)  (defvar test-text)
 )
 
@@ -64,9 +67,9 @@
 			 (match-beginning line-group)
 			 (match-end line-group)))
 
-(setq pos (match-end 0))
-(assert-equal 65 pos)
-(assert-equal 65 (string-match realgud-bt-re test-text pos))
+(setq test-pos (match-end 0))
+(assert-equal 65 test-pos)
+(assert-equal 65 (string-match realgud-bt-re test-text test-pos))
 (assert-equal "strdup.c"
 	      (substring test-text
 			 (match-beginning file-group)
@@ -76,9 +79,9 @@
 			 (match-beginning line-group)
 			 (match-end line-group)))
 
-(setq pos (match-end 0))
-(assert-equal 149 pos)
-(assert-equal 149 (string-match realgud-bt-re test-text pos))
+(setq test-pos (match-end 0))
+(assert-equal 149 test-pos)
+(assert-equal 149 (string-match realgud-bt-re test-text test-pos))
 (assert-equal "main.c"
 	      (substring test-text
 			 (match-beginning file-group)
@@ -88,9 +91,9 @@
 			 (match-beginning line-group)
 			 (match-end line-group)))
 
-(setq pos (match-end 0))
-(assert-equal 233 pos)
-(assert-equal 233 (string-match realgud-bt-re test-text pos))
+(setq test-pos (match-end 0))
+(assert-equal 233 test-pos)
+(assert-equal 233 (string-match realgud-bt-re test-text test-pos))
 (assert-equal "vm_insnhelper.c"
 	      (substring test-text
 			 (match-beginning file-group)
