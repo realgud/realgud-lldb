@@ -65,6 +65,8 @@ test-%.run:
 test-%.elrun:
 	(cd $(top_srcdir)/test && EMACSLOADPATH=$(EMACSLOADPAth) $(EMACS) --batch --no-site-file --no-splash --load ../el-get-install.el --load $(@:.elrun=.el))
 
+install-lispLISP: $(lisp_LISP) $(ELCFILES)
+
 # Whatever it is you want to do, it should be forwarded to the
 # to top-level directories
 # %:
