@@ -42,7 +42,7 @@ check-short:
 check-terse:
 	$(MAKE) check 2>&1  | $(RUBY) tes/make-check-filter.rb | grep failure
 
-#: Run "make install"
+#: Run "make install" non-verbosely
 install-short:
 	$(MAKE) install 2>&1  | $(RUBY) test/make-check-filter.rb
 
