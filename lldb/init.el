@@ -1,4 +1,4 @@
-;; Copyright (C) 2016 Rocky Bernstein
+;; Copyright (C) 2016-2017 Rocky Bernstein
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
 
 ;;; lldb debugger
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 (require 'realgud)
 

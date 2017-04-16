@@ -85,6 +85,8 @@ fringe and marginal icons.
     )
   )
 
+(defalias 'lldb 'realgud:lldb)
+
 (provide-me "realgud-")
 
 ;; Local Variables:
