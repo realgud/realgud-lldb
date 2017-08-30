@@ -45,7 +45,7 @@
 ;; 			    test-text) "extract line number")
 (note "debugger-backtrace")
 (setq realgud-bt-pat  (gethash "debugger-backtrace"
-			    realgud:gdb-pat-hash))
+			    realgud:lldb-pat-hash))
 (setq test-text
       "#0  main (argc=2, argv=0xbffff564, envp=0xbffff570) at main.c:935
 #1  0xb7e9f4a5 in *__GI___strdup (s=0xbffff760 \"/tmp/remake/remake\") at strdup.c:42
@@ -58,6 +58,7 @@
 (setq file-group (realgud-loc-pat-file-group realgud-bt-pat))
 (setq line-group (realgud-loc-pat-line-group realgud-bt-pat))
 (assert-equal 0 (string-match realgud-bt-re test-text))
+
 (assert-equal "main.c"
 	      (substring test-text
 			 (match-beginning file-group)
@@ -105,7 +106,7 @@
 
 (note "prompt")
 (set (make-local-variable 'prompt-pat)
-     (gethash "prompt" realgud:gdb-pat-hash))
-(prompt-match "(gdb) ")
+     (gethash "prompt" realgud:lldb-pat-hash))
+(prompt-match "(lldb) ")
 
 (end-tests)
