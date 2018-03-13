@@ -1,6 +1,6 @@
 dnl FIXME: pick up from realgud.el
 AC_INIT(realgud-lldb, 1.0,)
-AC_CONFIG_SRCDIR(lldb/lldb.el)
+AC_CONFIG_SRCDIR(lldb/main.el)
 AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE
 

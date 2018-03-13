@@ -1,4 +1,4 @@
-;; Copyright (C) 2016 Rocky Bernstein
+;; Copyright (C) 2016, 2018 Rocky Bernstein
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -71,10 +71,9 @@ that works."
      ))
 
 (defun realgud:lldb-loc-fn-callback(text filename lineno source-str
-					 ignore-file-re cmd-mark)
-  (realgud:file-loc-from-line filename lineno
-			      cmd-mark source-str nil
-			      ignore-file-re 'realgud:lldb-find-file))
+					 ignore-file-re cmd-mark directory)
+  (realgud:file-loc-from-line filename lineno cmd-mark source-str nil
+			      'realgud:lldb-find-file directory))
 
 (defun realgud:lldb-parse-cmd-args (orig-args)
   "Parse command line ARGS for the annotate level and name of script to debug.
