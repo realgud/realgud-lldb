@@ -159,7 +159,7 @@ Note that path elements have been expanded via `expand-file-name'.
 (defvar realgud:lldb-command-name)
 
 (defun realgud:lldb-executable (file-name)
-"Return a priority for wehther file-name is likely we can run lldb on"
+"Return a priority for whether file-name is likely we can run lldb on"
   (let ((output (shell-command-to-string (format "file %s" file-name))))
     (cond
      ((string-match "ASCII" output) 2)
