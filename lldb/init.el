@@ -146,6 +146,7 @@ realgud-loc-pat struct")
 (setf (gethash "quit"     realgud:lldb-command-hash) "quit")
 (setf (gethash "run"      realgud:lldb-command-hash) "run")
 (setf (gethash "step"     realgud:lldb-command-hash) "thread step-in --count %p")
+(setf (gethash "until"    realgud:lldb-command-hash) "thread until %l")
 (setf (gethash "lldb" realgud-command-hash) realgud:lldb-command-hash)
 
 (setf (gethash "lldb" realgud-pat-hash) realgud:lldb-pat-hash)
