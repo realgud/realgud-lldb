@@ -8,14 +8,16 @@
 (load-file "./regexp-helper.el")
 
 (declare-function __FILE__              'load-relative)
+(declare-function prompt-match          'regexp-helper)
 
 (test-simple-start)
 
 (eval-when-compile
-  (defvar dbg-name)   (defvar realgud-pat-hash)   (defvar realgud-bt-hash)
-  (defvar loc-pat)    (defvar prompt-pat)
-  (defvar file-group) (defvar line-group)         (defvar test-pos)
-  (defvar test-dbgr)  (defvar test-text)
+  (defvar dbg-name)      (defvar realgud-pat-hash) (defvar realgud-bt-hash)
+  (defvar loc-pat)       (defvar prompt-pat)
+  (defvar file-group)    (defvar line-group)       (defvar test-pos)
+  (defvar test-dbgr)     (defvar test-text)        (defvar realgud-bt-pat)
+  (defvar realgud-bt-re) (defvar realgud:lldb-pat-hash)
 )
 
 ; Some setup usually done in setting up the buffer.

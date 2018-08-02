@@ -1,4 +1,4 @@
-;; Copyright (C) 2016 Rocky Bernstein
+;; Copyright (C) 2016, 2018 Rocky Bernstein
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -78,7 +78,8 @@ fringe and marginal icons.
 	 )
     (if cmd-buf
 	(with-current-buffer cmd-buf
-	  (set (make-local-variable 'realgud:lldb-file-remap))
+	  (set (make-local-variable 'realgud:lldb-file-remap)
+	       (make-hash-table :test 'equal))
 	  (realgud:remove-ansi-schmutz)
 	  )
       )
