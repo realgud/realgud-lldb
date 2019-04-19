@@ -29,8 +29,19 @@ realgud-loc-pat struct")
 
 (declare-function make-realgud-loc "realgud-loc" (a b c d e f))
 
-(defconst realgud:lldb-frame-file-regexp
-  (format "\\(.+\\):%s" realgud:regexp-captured-num))
+
+;; Handle both
+;; * line and column number as well as
+;; * line without column number.
+;; For example:
+;;   SolidityParserError.cpp:102:35
+;;   SolidityParserError.cpp:102
+;;
+;; Note the minimal-match regexp up to the first colon
+(defconst realgud:lldb-file-col-regexp
+  (format "\\(.+?\\):%s\\(?::%s\\)?"
+	  realgud:regexp-captured-num
+	  realgud:regexp-captured-num))
 
 (defconst realgud:lldb-frame-start-regexp
   "\\(?:^\\|\n\\)")
@@ -49,9 +60,10 @@ realgud-loc-pat struct")
 (setf (gethash "loc" realgud:lldb-pat-hash)
       (make-realgud-loc-pat
        :regexp (format "^\\* thread #%s: .+ at %s, "
-		       realgud:regexp-captured-num realgud:lldb-frame-file-regexp)
+		       realgud:regexp-captured-num realgud:lldb-file-col-regexp)
        :file-group 2
-       :line-group 3))
+       :line-group 3
+       :column-group 4))
 
 ;; Top frame number
 (setf (gethash "top-frame-num" realgud:lldb-pat-hash) 0)
@@ -67,12 +79,12 @@ realgud-loc-pat struct")
       (make-realgud-loc-pat
        :regexp 	(format "^%s.* at %s"
 			realgud:lldb-frame-num-regexp
-			realgud:lldb-frame-file-regexp
+			realgud:lldb-file-col-regexp
 			)
        :num 1
        :file-group 2
-       :line-group 3)
-      )
+       :line-group 3
+       :column-group 4))
 
 ;; realgud-loc-pat that describes a lldb prompt
 ;; For example:
@@ -87,11 +99,13 @@ realgud-loc-pat struct")
 ;;   Breakpoint 1: where = hello`main + 4 at hello.c:5, address = 0x00000000004004b4
 (setf (gethash "brkpt-set" realgud:lldb-pat-hash)
       (make-realgud-loc-pat
-       :regexp (format "^Breakpoint %s: .* at \\(.+?\\):%s\\(?::[0-9]+\\)?, "
-		       realgud:regexp-captured-num realgud:regexp-captured-num)
+       :regexp (format "^Breakpoint %s: .* at %s, "
+		       realgud:regexp-captured-num
+		       realgud:lldb-file-col-regexp)
        :num 1
        :file-group 2
-       :line-group 3))
+       :line-group 3
+       :column-group 4))
 
 ;; realgud-loc-pat that describes a lldb "backtrace" command line.
 ;; For example:
@@ -107,11 +121,12 @@ realgud-loc-pat struct")
        :regexp 	(concat realgud:lldb-frame-start-regexp
 			realgud:lldb-frame-num-regexp
 			"\\(?:.\\|\\(?:[\n] \\)\\)+[ ]+at "
-			realgud:lldb-frame-file-regexp
+			realgud:lldb-file-col-regexp
 			)
        :num 1
        :file-group 2
-       :line-group 3)
+       :line-group 3
+       :column-group 4)
       )
 
 (setf (gethash "font-lock-keywords" realgud:lldb-pat-hash)
@@ -142,7 +157,7 @@ realgud-loc-pat struct")
 (setf (gethash "clear"    realgud:lldb-command-hash) "break clear %X:%l")
 (setf (gethash "continue" realgud:lldb-command-hash) "process continue")
 (setf (gethash "eval"     realgud:lldb-command-hash) "print %s")
-(setf (gethash "finish"   realgud:lldb-command-hash) "thread step out")
+(setf (gethash "finish"   realgud:lldb-command-hash) "thread step-out")
 (setf (gethash "quit"     realgud:lldb-command-hash) "quit")
 (setf (gethash "run"      realgud:lldb-command-hash) "run")
 (setf (gethash "step"     realgud:lldb-command-hash) "thread step-in --count %p")

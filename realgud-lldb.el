@@ -6,7 +6,7 @@
 ;; URL: http://github.com/rocky/realgud-lldb
 ;; Compatibility: GNU Emacs 24.x
 
-;; Copyright (C) 2015, 2016 Free Software Foundation, Inc
+;; Copyright (C) 2015, 2016, 2019 Free Software Foundation, Inc
 
 ;; Author: Rocky Bernstein <rocky@gnu.org>
 
@@ -31,7 +31,7 @@
 
 ;; Press C-x C-e at the end of the next line configure the program in
 ;; for building via "make" to get set up.
-;; (compile (format "EMACSLOADPATH=:%s:%s ./autogen.sh" (file-name-directory (locate-library "test-simple.elc")) (file-name-directory (locate-library "realgud.elc"))))
+;; (compile (format "EMACSLOADPATH=:%s:%s:%s:%s ./autogen.sh" (file-name-directory (locate-library "loc-changes.elc")) (file-name-directory (locate-library "test-simple.elc")) (file-name-directory (locate-library "load-relative.elc")) (file-name-directory (locate-library "realgud.elc"))))
 
 (require 'load-relative)
 

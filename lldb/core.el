@@ -47,7 +47,7 @@
   value is associated filesystem string presumably in the
   filesystem")
 
-(defun realgud:lldb-find-file(filename)
+(defun realgud:lldb-find-file(cmd-marker filename directory)
   "A find-file specific for lldb. We use `global' to map a
 name to a filename. Failing that
 we will prompt for a mapping and save that in `realgud:lldb-file-remap' when
@@ -71,10 +71,10 @@ that works."
      ))
 
 (defun realgud:lldb-loc-fn-callback(text filename lineno source-str
-					 ignore-file-re cmd-mark)
+					 cmd-mark directory)
   (realgud:file-loc-from-line filename lineno
-			      cmd-mark source-str nil
-			      ignore-file-re 'realgud:lldb-find-file))
+			      cmd-mark source-str nil nil ))
+			      ;; 'realgud:lldb-find-file directory))
 
 (defun realgud:lldb-parse-cmd-args (orig-args)
   "Parse command line ARGS for the annotate level and name of script to debug.

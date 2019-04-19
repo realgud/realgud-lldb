@@ -9,6 +9,7 @@
 
 (declare-function __FILE__              'load-relative)
 (declare-function prompt-match          'regexp-helper)
+(declare-function loc-match	        'realgud-helper)
 
 (test-simple-start)
 
@@ -127,6 +128,11 @@
 
 (assert-equal "303"
 	      (match-string (realgud-loc-pat-line-group
+			     bps-pat) test-text)
+	      "extract breakpoint line number")
+
+(assert-equal "12"
+	      (match-string (realgud-loc-pat-column-group
 			     bps-pat) test-text)
 	      "extract breakpoint line number")
 
