@@ -1,5 +1,5 @@
 ;; Press C-x C-e at the end of the next line to run this file test non-interactively
-;; (test-simple-run "emacs -batch -L %s -L %s -l %s" (file-name-directory (locate-library "test-simple.elc")) (file-name-directory (locate-library "realgud.elc")) buffer-file-name)
+;; (test-simple-run "emacs -batch -L %s -L %s -L %s -L %s -l %s" (file-name-directory (locate-library "test-simple.elc")) (file-name-directory (locate-library "load-relative.elc")) (file-name-directory (locate-library "realgud.elc")) (file-name-directory (locate-library "loc-changes.elc")) buffer-file-name)
 
 (require 'test-simple)
 (require 'load-relative)
@@ -14,7 +14,7 @@
 
 (eval-when-compile
   (defvar dbg-name)      (defvar realgud-pat-hash) (defvar realgud-bt-hash)
-  (defvar loc-pat)       (defvar prompt-pat)
+  (defvar loc-pat)       (defvar prompt-pat)       (defvar bps-pat)
   (defvar file-group)    (defvar line-group)       (defvar test-pos)
   (defvar test-dbgr)     (defvar test-text)        (defvar realgud-bt-pat)
   (defvar realgud-bt-re) (defvar realgud:lldb-pat-hash)
@@ -105,6 +105,54 @@
 	      (substring test-text
 			 (match-beginning line-group)
 			 (match-end line-group)))
+
+(set (make-local-variable 'bps-pat)
+     (gethash "brkpt-set"  realgud:lldb-pat-hash))
+
+(setq test-text "Breakpoint 1: where = solptest`main + 9 at unit_test_main.ipp:303:12, address = 0x00000001002380d9")
+
+(assert-t (numberp (loc-match test-text bps-pat))
+	  "breakpoint location with column")
+
+
+(assert-equal "1"
+	      (match-string (realgud-loc-pat-num
+			     bps-pat) test-text)
+	      "extract breakpoint number")
+
+(assert-equal "unit_test_main.ipp"
+	      (match-string (realgud-loc-pat-file-group
+			     bps-pat) test-text)
+	      "extract breakpoint file name")
+
+(assert-equal "303"
+	      (match-string (realgud-loc-pat-line-group
+			     bps-pat) test-text)
+	      "extract breakpoint line number")
+
+
+(setq test-text "Breakpoint 2: where = solptest`main + 9 at /tmp/foo.c:63, address = 0x00000001002380d9")
+
+(assert-t (numberp (loc-match test-text bps-pat))
+	  "breakpoint location without column")
+
+
+(assert-equal "2"
+	      (match-string (realgud-loc-pat-num
+			     bps-pat) test-text)
+	      "extract breakpoint number")
+
+(assert-equal "/tmp/foo.c"
+	      (match-string (realgud-loc-pat-file-group
+			     bps-pat) test-text)
+	      "extract breakpoint file name")
+
+(assert-equal "63"
+	      (match-string (realgud-loc-pat-line-group
+			     bps-pat) test-text)
+	      "extract breakpoint line number")
+
+
 
 (note "prompt")
 (set (make-local-variable 'prompt-pat)

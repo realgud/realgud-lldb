@@ -1,4 +1,4 @@
-;; Copyright (C) 2016-2017 Rocky Bernstein
+;; Copyright (C) 2016-2017, 2019 Rocky Bernstein
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -87,7 +87,7 @@ realgud-loc-pat struct")
 ;;   Breakpoint 1: where = hello`main + 4 at hello.c:5, address = 0x00000000004004b4
 (setf (gethash "brkpt-set" realgud:lldb-pat-hash)
       (make-realgud-loc-pat
-       :regexp (format "^Breakpoint %s: .* at \\(.+\\):%s, "
+       :regexp (format "^Breakpoint %s: .* at \\(.+?\\):%s\\(?::[0-9]+\\)?, "
 		       realgud:regexp-captured-num realgud:regexp-captured-num)
        :num 1
        :file-group 2
@@ -137,7 +137,7 @@ realgud-loc-pat struct")
   "Hash key is command name like 'continue' and the value is
   the lldb command to use, like 'process continue'")
 
-(setf (gethash "break"    realgud:lldb-command-hash) "b %l")
+(setf (gethash "break"    realgud:lldb-command-hash) "b %X:%l")
 (setf (gethash "delete"   realgud:lldb-command-hash) "break delete %p")
 (setf (gethash "clear"    realgud:lldb-command-hash) "break clear %X:%l")
 (setf (gethash "continue" realgud:lldb-command-hash) "process continue")
