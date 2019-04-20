@@ -153,7 +153,7 @@ realgud-loc-pat struct")
   the lldb command to use, like 'process continue'")
 
 (setf (gethash "backtrace" realgud:lldb-command-hash) "bt")
-(setf (gethash "break"     realgud:lldb-command-hash) "break set %X -l %l")
+(setf (gethash "break"     realgud:lldb-command-hash) "b %X:%l")
 (setf (gethash "delete"    realgud:lldb-command-hash) "break delete %p")
 (setf (gethash "clear"     realgud:lldb-command-hash) "break clear %X:%l")
 (setf (gethash "continue"  realgud:lldb-command-hash) "process continue")

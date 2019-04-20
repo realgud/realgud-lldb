@@ -70,6 +70,9 @@ that works."
       (puthash filename resolved-filename realgud:lldb-file-remap)))
      ))
 
+;; FIXME: setting a breakpoint should add a[ file-to-basename mapping
+;; so that when this is called it can look up the short name and
+;; remap it.
 (defun realgud:lldb-loc-fn-callback(text filename lineno source-str
 					 cmd-mark directory)
   (realgud:file-loc-from-line filename lineno
