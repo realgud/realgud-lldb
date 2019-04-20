@@ -74,9 +74,9 @@ that works."
 ;; so that when this is called it can look up the short name and
 ;; remap it.
 (defun realgud:lldb-loc-fn-callback(text filename lineno source-str
-					 cmd-mark directory)
+					 cmd-mark directory column)
   (realgud:file-loc-from-line filename lineno
-			      cmd-mark source-str nil nil ))
+			      cmd-mark source-str nil nil directory))
 			      ;; 'realgud:lldb-find-file directory))
 
 (defun realgud:lldb-parse-cmd-args (orig-args)
