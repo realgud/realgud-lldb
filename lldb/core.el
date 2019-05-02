@@ -48,27 +48,35 @@
   filesystem")
 
 (defun realgud:lldb-find-file(cmd-marker filename directory)
-  "A find-file specific for lldb. We use `global' to map a
-name to a filename. Failing that
-we will prompt for a mapping and save that in `realgud:lldb-file-remap' when
-that works."
+  "A find-file specific for lldb. We will prompt for a mapping and save that in
+`realgud:lldb-file-remap' when that works."
   (let ((resolved-filename filename)
-	(global-output)
 	(remapped-filename (gethash filename realgud:lldb-file-remap)))
     (cond
      ((and remapped-filename (stringp remapped-filename)
 	   (file-exists-p remapped-filename)) remapped-filename)
      ((file-exists-p filename) filename)
-     ((and (setq resolved-filename (shell-command-to-string (format "global -P %s" filename)))
-	   (stringp resolved-filename)
-	   (file-exists-p (setq resolved-filename (realgud:strip resolved-filename))))
-     	(puthash filename resolved-filename realgud:lldb-file-remap))
      ('t
       (setq resolved-filename
 	    (buffer-file-name
 	     (compilation-find-file (point-marker) filename nil "")))
       (puthash filename resolved-filename realgud:lldb-file-remap)))
      ))
+
+(defun realgud:cmd-lldb-break()
+  "Set a breakpoint storing mapping between a file and its basename"
+  (let* ((resolved-filename (realgud-expand-format "%X"))
+	 (cmdbuf (realgud-get-cmdbuf))
+	 (filename (file-name-nondirectory resolved-filename)))
+
+    ;; Save mapping from basename to long name so that we know what's
+    ;; up in a "Breakpoint set at" message
+    (puthash filename resolved-filename realgud:lldb-file-remap)
+
+    ;; Run actual command
+    (realgud:cmd-break)
+    ))
+
 
 ;; FIXME: setting a breakpoint should add a[ file-to-basename mapping
 ;; so that when this is called it can look up the short name and
