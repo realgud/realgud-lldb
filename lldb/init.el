@@ -129,6 +129,21 @@ realgud-loc-pat struct")
        :column-group 4)
       )
 
+;; FIXME breakpoints aren't locations. It should be a different structure
+;; Regular expression that describes a gdb "info breakpoint" line
+;; For example:
+;; 1: name = 'main', locations = 1, resolved = 1, hit count = 1
+;;  1.1: where = solc`main + 48 at main.cpp:55:2, address = 0x000000010004a5e0, resolved, hit count = 1
+(setf (gethash "debugger-breakpoint" realgud:lldb-pat-hash)
+  (make-realgud-loc-pat
+   :regexp (format "^[ \t]*\\([0-9.]\\)+: where = .* at \\(.+\\):%s:%s"
+		   realgud:regexp-captured-num realgud:regexp-captured-num)
+   :num 1
+   :file-group 2
+   :line-group 3
+   :column-group 4)
+  )
+
 (setf (gethash "font-lock-keywords" realgud:lldb-pat-hash)
       '(
 	;; #2  0x080593ac in main (argc=2, argv=0xbffff5a4, envp=0xbffff5b0)
@@ -144,6 +159,17 @@ realgud-loc-pat struct")
 	 (1 realgud-backtrace-number-face))
 	))
 
+(setf (gethash "font-lock-breakpoint-keywords" realgud:gdb-pat-hash)
+  '(
+    ;; The breakpoint number, type and disposition
+    ;;  1.1: where =
+    ;;  ^^^
+    ((format " at \\(.+\\):%s:%s"
+	     realgud:regexp-captured-num realgud:regexp-captured-num)
+     (1 realgud-file-name-face)
+     (2 realgud-line-number-face))
+    ))
+
 ;;  Prefix used in variable names (e.g. short-key-mode-map) for
 ;; this debugger
 (setf (gethash "lldb" realgud:variable-basename-hash) "realgud:lldb")
@@ -152,29 +178,29 @@ realgud-loc-pat struct")
   "Hash key is command name like 'continue' and the value is
   the lldb command to use, like 'process continue'")
 
-(setf (gethash "backtrace"       realgud:lldb-command-hash) "bt")
-(setf (gethash "break"           realgud:lldb-command-hash) "b %X:%l")
-(setf (gethash "lldb-break"      realgud:lldb-command-hash) "b %X:%l")
-(setf (gethash "delete"          realgud:lldb-command-hash) "break delete %p")
-(setf (gethash "clear"           realgud:lldb-command-hash) "break clear %X:%l")
-(setf (gethash "continue"        realgud:lldb-command-hash) "process continue")
-(setf (gethash "delete"          realgud:lldb-command-hash) "*not-implemented*")  ;; Or rather don't know what the equvalent is
-(setf (gethash "delete_all"      realgud:lldb-command-hash) "*not-implemented*")
-(setf (gethash "disable"         realgud:lldb-command-hash) "break disable %p")
-(setf (gethash "disable_all"     realgud:lldb-command-hash) "break disable")
-(setf (gethash "down"            realgud:lldb-command-hash) "down %p")
-(setf (gethash "enable"          realgud:lldb-command-hash) "break enable %p")
-(setf (gethash "enable_all"      realgud:lldb-command-hash) "break enable")
-(setf (gethash "eval"            realgud:lldb-command-hash) "print %s")
-(setf (gethash "finish"          realgud:lldb-command-hash) "thread step-out")
-(setf (gethash "frame"           realgud:lldb-command-hash) "frame select %p")
-(setf (gethash "info-breakponts" realgud:lldb-command-hash) "break list")
-(setf (gethash "quit"            realgud:lldb-command-hash) "quit")
-(setf (gethash "restart"         realgud:lldb-command-hash) "run")
-(setf (gethash "step"            realgud:lldb-command-hash) "thread step-in --count %p")
-(setf (gethash "shell"           realgud:lldb-command-hash) "platform shell %s")
-(setf (gethash "until"           realgud:lldb-command-hash) "thread until %l")
-(setf (gethash "up"              realgud:lldb-command-hash) "up %p")
+(setf (gethash "backtrace"        realgud:lldb-command-hash) "bt")
+(setf (gethash "break"            realgud:lldb-command-hash) "b %X:%l")
+(setf (gethash "lldb-break"       realgud:lldb-command-hash) "b %X:%l")
+(setf (gethash "delete"           realgud:lldb-command-hash) "break delete %p")
+(setf (gethash "clear"            realgud:lldb-command-hash) "break clear %X:%l")
+(setf (gethash "continue"         realgud:lldb-command-hash) "process continue")
+(setf (gethash "delete"           realgud:lldb-command-hash) "*not-implemented*")  ;; Or rather don't know what the equvalent is
+(setf (gethash "delete_all"       realgud:lldb-command-hash) "*not-implemented*")
+(setf (gethash "disable"          realgud:lldb-command-hash) "break disable %p")
+(setf (gethash "disable-all"      realgud:lldb-command-hash) "break disable")
+(setf (gethash "down"             realgud:lldb-command-hash) "down %p")
+(setf (gethash "enable"           realgud:lldb-command-hash) "break enable %p")
+(setf (gethash "enable-all"       realgud:lldb-command-hash) "break enable")
+(setf (gethash "eval"             realgud:lldb-command-hash) "print %s")
+(setf (gethash "finish"           realgud:lldb-command-hash) "thread step-out")
+(setf (gethash "frame"            realgud:lldb-command-hash) "frame select %p")
+(setf (gethash "info-breakpoints" realgud:lldb-command-hash) "break list")
+(setf (gethash "quit"             realgud:lldb-command-hash) "quit")
+(setf (gethash "restart"          realgud:lldb-command-hash) "run")
+(setf (gethash "step"             realgud:lldb-command-hash) "thread step-in --count %p")
+(setf (gethash "shell"            realgud:lldb-command-hash) "platform shell %s")
+(setf (gethash "until"            realgud:lldb-command-hash) "thread until %l")
+(setf (gethash "up"               realgud:lldb-command-hash) "up %p")
 
 (setf (gethash "lldb" realgud-command-hash) realgud:lldb-command-hash)
 (setf (gethash "lldb" realgud-pat-hash) realgud:lldb-pat-hash)
