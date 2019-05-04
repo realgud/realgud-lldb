@@ -1,4 +1,4 @@
-;; Copyright (C) 2016 Rocky Bernstein
+;; Copyright (C) 2016, 2019 Rocky Bernstein
 ;;; track-mode.el ---
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -16,51 +16,51 @@
 
 ;; lldb tracking a comint or eshell buffer.
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 (require 'realgud)
 
-(require-relative-list '("core" "init") "realgud:lldb-")
+(require-relative-list '("core" "init") "realgud--lldb-")
 
-(realgud-track-mode-vars "realgud:lldb")
+(realgud-track-mode-vars "realgud--lldb")
 
 (declare-function realgud-track-mode 'realgud-track-mode)
 (declare-function realgud:track-mode-hook 'realgud-track-mode)
 (declare-function realgud-track-mode-setup 'realgud-track-mode)
 (declare-function realgud:track-set-debugger 'realgud-track-mode)
 
-(define-key realgud:lldb-track-mode-map
+(define-key realgud--lldb-track-mode-map
   (kbd "C-c !b") 'realgud:goto-debugger-backtrace-line)
 
-(defun realgud:lldb-track-mode-hook()
-  (use-local-map realgud:lldb-track-mode-map)
+(defun realgud--lldb-track-mode-hook()
+  (use-local-map realgud--lldb-track-mode-map)
   (realgud-track-mode-setup 't)
-  (message "realgud:lldb track-mode-hook called")
+  (message "realgud--lldb track-mode-hook called")
 )
 
-(define-minor-mode realgud:lldb-track-mode
+(define-minor-mode realgud--lldb-track-mode
   "Minor mode for tracking lldb inside a process shell via realgud.
 
 If called interactively with no prefix argument, the mode is toggled. A prefix argument, captured as ARG, enables the mode if the argument is positive, and disables it otherwise.
 
 Key bindings:
-\\{realgud:lldb-track-mode-map}
+\\{realgud--lldb-track-mode-map}
 "
   :init-value nil
   ;; :lighter " lldb"   ;; mode-line indicator from realgud-track is sufficient.
   ;; The minor mode bindings.
   :global nil
-  :group 'realgud:lldb
-  :keymap realgud:lldb-track-mode-map
-  (if realgud:lldb-track-mode
+  :group 'realgud--lldb
+  :keymap realgud--lldb-track-mode-map
+  (if realgud--lldb-track-mode
       (progn
 	(realgud:track-set-debugger "lldb")
-        (realgud:lldb-track-mode-hook)
+        (realgud--lldb-track-mode-hook)
         (realgud:track-mode-enable))
     (progn
-      (setq realgud::lldb-track-mode nil)
+      (setq realgud--lldb-track-mode nil)
       ))
   )
 
-(provide-me "realgud:lldb-")
+(provide-me "realgud--lldb-")
 ;;; track-mode.el ends here
