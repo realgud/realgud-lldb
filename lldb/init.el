@@ -19,13 +19,16 @@
 
 (require 'realgud)
 
-(defvar realgud-pat-hash)
-(declare-function make-realgud-loc-pat (realgud-loc))
-
 (defvar realgud--lldb-pat-hash (make-hash-table :test 'equal)
   "hash key is the what kind of pattern we want to match:
 backtrace, prompt, etc.  the values of a hash entry is a
 realgud-loc-pat struct")
+
+(defvar realgud-pat-hash
+  nil
+  "A buffer local hash table which maps a debugger name, .e.g. 'lldb' to its
+the debugger specific hash table, e.g. 'realugd-lldd-pat-hash'.")
+(declare-function make-realgud-loc-pat (realgud-loc))
 
 (declare-function make-realgud-loc "realgud-loc" (a b c d e f))
 

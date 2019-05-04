@@ -18,7 +18,7 @@
   (defvar loc-pat)       (defvar prompt-pat)       (defvar bps-pat)
   (defvar file-group)    (defvar line-group)       (defvar test-pos)
   (defvar test-dbgr)     (defvar test-text)        (defvar realgud-bt-pat)
-  (defvar realgud-bt-re) (defvar realgud:lldb-pat-hash)
+  (defvar realgud-bt-re) (defvar realgud--lldb-pat-hash)
 )
 
 ; Some setup usually done in setting up the buffer.
@@ -48,7 +48,7 @@
 ;; 			    test-text) "extract line number")
 (note "debugger-backtrace")
 (setq realgud-bt-pat  (gethash "debugger-backtrace"
-			    realgud:lldb-pat-hash))
+			       realgud--lldb-pat-hash))
 (setq test-text
       "#0  main (argc=2, argv=0xbffff564, envp=0xbffff570) at main.c:935
 #1  0xb7e9f4a5 in *__GI___strdup (s=0xbffff760 \"/tmp/remake/remake\") at strdup.c:42
@@ -108,7 +108,7 @@
 			 (match-end line-group)))
 
 (set (make-local-variable 'bps-pat)
-     (gethash "brkpt-set"  realgud:lldb-pat-hash))
+     (gethash "brkpt-set"  realgud--lldb-pat-hash))
 
 (setq test-text "Breakpoint 1: where = solptest`main + 9 at unit_test_main.ipp:303:12, address = 0x00000001002380d9")
 
@@ -162,7 +162,7 @@
 
 (note "prompt")
 (set (make-local-variable 'prompt-pat)
-     (gethash "prompt" realgud:lldb-pat-hash))
+     (gethash "prompt" realgud--lldb-pat-hash))
 (prompt-match "(lldb) ")
 
 (end-tests)
