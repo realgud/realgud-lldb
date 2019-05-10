@@ -3,6 +3,7 @@
 
 (eval-when-compile
   (defvar helper-bps)
+  (defvar helper-info-brkpt)
   (defvar helper-loc)
   (defvar helper-tb)
   (defvar prompt-pat)
@@ -14,15 +15,25 @@
 
 
 (defun setup-regexp-vars(pat-hash)
-  (setq helper-bps    (gethash "brkpt-set" pat-hash))
-  (setq helper-loc    (gethash "loc"       pat-hash))
-  (setq helper-tb     (gethash "lang-backtrace" pat-hash))
+  (setq helper-bps         (gethash "brkpt-set" pat-hash))
+  (setq helper-info-brkpt  (gethash "debugger-breakpoint" pat-hash))
+  (setq helper-loc         (gethash "loc"       pat-hash))
+  (setq helper-tb          (gethash "lang-backtrace" pat-hash))
 )
 
-(defun loc-match(text var)
-  "Match TEXT against regexp field VAR"
-  (string-match (realgud-loc-pat-regexp var) text)
-)
+(defun loc-match(text regexp-list)
+  "Match TEXT against regexp field REGEXP"
+  (let ((regexp)
+	(ret-val nil))
+    (unless (listp regexp-list)
+      (setq regexp-list (list regexp-list)))
+    (while regexp-list
+      (setq regexp (car regexp-list))
+      (setq regexp-list (cdr regexp-list))
+      (when (setq ret-val (string-match (realgud-loc-pat-regexp regexp) text))
+	(setq regexp-list nil)))
+    ret-val
+    ))
 
 (defun bp-loc-match(text)
   (string-match (realgud-loc-pat-regexp helper-bps) text)
