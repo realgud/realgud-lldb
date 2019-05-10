@@ -1,4 +1,4 @@
-;; Copyright (C) 2016 Rocky Bernstein
+;; Copyright (C) 2016, 2019 Rocky Bernstein
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -13,7 +13,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 
 (require 'realgud)
 
@@ -24,34 +24,34 @@
 
 ;; FIXME: I think the following could be generalized and moved to
 ;; realgud-... probably via a macro.
-(defvar realgud:lldb-minibuffer-history nil
+(defvar realgud--lldb-minibuffer-history nil
   "minibuffer history list for the command `lldb'.")
 
-(easy-mmode-defmap realgud:lldb-minibuffer-local-map
+(easy-mmode-defmap realgud--lldb-minibuffer-local-map
   '(("\C-i" . comint-dynamic-complete-filename))
   "Keymap for minibuffer prompting of gud startup command."
   :inherit minibuffer-local-map)
 
 ;; FIXME: I think this code and the keymaps and history
 ;; variable chould be generalized, perhaps via a macro.
-(defun realgud:lldb-query-cmdline (&optional opt-debugger)
+(defun realgud--lldb-query-cmdline (&optional opt-debugger)
   (realgud-query-cmdline
-   'realgud:lldb-suggest-invocation
-   realgud:lldb-minibuffer-local-map
-   'realgud:lldb-minibuffer-history
+   'realgud--lldb-suggest-invocation
+   realgud--lldb-minibuffer-local-map
+   'realgud--lldb-minibuffer-history
    opt-debugger))
 
-(defvar realgud:lldb-file-remap (make-hash-table :test 'equal)
+(defvar realgud--lldb-file-remap (make-hash-table :test 'equal)
   "How to remap lldb files in  when we otherwise can't find in
   the filesystem. The hash key is the file string we saw, and the
   value is associated filesystem string presumably in the
   filesystem")
 
-(defun realgud:lldb-find-file(cmd-marker filename directory)
+(defun realgud--lldb-find-file(cmd-marker filename directory)
   "A find-file specific for lldb. We will prompt for a mapping and save that in
-`realgud:lldb-file-remap' when that works."
+`realgud--lldb-file-remap' when that works."
   (let ((resolved-filename filename)
-	(remapped-filename (gethash filename realgud:lldb-file-remap)))
+	(remapped-filename (gethash filename realgud--lldb-file-remap)))
     (cond
      ((and remapped-filename (stringp remapped-filename)
 	   (file-exists-p remapped-filename)) remapped-filename)
@@ -60,10 +60,10 @@
       (setq resolved-filename
 	    (buffer-file-name
 	     (compilation-find-file (point-marker) filename nil "")))
-      (puthash filename resolved-filename realgud:lldb-file-remap)))
+      (puthash filename resolved-filename realgud--lldb-file-remap)))
      ))
 
-(defun realgud:cmd-lldb-break()
+(defun realgud--cmd-lldb-break()
   "Set a breakpoint storing mapping between a file and its basename"
   (let* ((resolved-filename (realgud-expand-format "%X"))
 	 (cmdbuf (realgud-get-cmdbuf))
@@ -71,7 +71,7 @@
 
     ;; Save mapping from basename to long name so that we know what's
     ;; up in a "Breakpoint set at" message
-    (puthash filename resolved-filename realgud:lldb-file-remap)
+    (puthash filename resolved-filename realgud--lldb-file-remap)
 
     ;; Run actual command
     (realgud:cmd-break)
@@ -81,13 +81,13 @@
 ;; FIXME: setting a breakpoint should add a[ file-to-basename mapping
 ;; so that when this is called it can look up the short name and
 ;; remap it.
-(defun realgud:lldb-loc-fn-callback(text filename lineno source-str
+(defun realgud--lldb-loc-fn-callback(text filename lineno source-str
 					 cmd-mark directory column)
   (realgud:file-loc-from-line filename lineno
 			      cmd-mark source-str nil nil directory))
-			      ;; 'realgud:lldb-find-file directory))
+			      ;; 'realgud--lldb-find-file directory))
 
-(defun realgud:lldb-parse-cmd-args (orig-args)
+(defun realgud--lldb-parse-cmd-args (orig-args)
   "Parse command line ARGS for the annotate level and name of script to debug.
 
 ORIG_ARGS should contain a tokenized list of the command line to run.
@@ -167,9 +167,9 @@ Note that path elements have been expanded via `expand-file-name'.
 	     )))
 	(list debugger-args nil script-args annotate-p)))))
 
-(defvar realgud:lldb-command-name)
+(defvar realgud--lldb-command-name)
 
-(defun realgud:lldb-executable (file-name)
+(defun realgud--lldb-executable (file-name)
 "Return a priority for whether file-name is likely we can run lldb on"
   (let ((output (shell-command-to-string (format "file %s" file-name))))
     (cond
@@ -179,7 +179,7 @@ Note that path elements have been expanded via `expand-file-name'.
      ('t 5))))
 
 
-(defun realgud:lldb-suggest-invocation (&optional debugger-name)
+(defun realgud--lldb-suggest-invocation (&optional debugger-name)
   "Suggest a lldb command invocation. Here is the priority we use:
 * an executable file with the name of the current buffer stripped of its extension
 * any executable file in the current directory with no extension
@@ -192,7 +192,7 @@ When all else fails return the empty string."
 	 (try-filename (file-name-base (or (buffer-file-name) "lldb"))))
     (when (member try-filename (directory-files default-directory))
 	(setq best-filename try-filename)
-	(setq priority (+ (realgud:lldb-executable try-filename) 2)))
+	(setq priority (+ (realgud--lldb-executable try-filename) 2)))
 
     ;; FIXME: I think a better test would be to look for
     ;; c-mode in the buffer that have a corresponding executable
@@ -203,17 +203,17 @@ When all else fails return the empty string."
 	  (if (equal try-filename (file-name-sans-extension try-filename))
 	      (progn
 		(setq best-filename try-filename)
-		(setq priority (1+ (realgud:lldb-executable best-filename))))
+		(setq priority (1+ (realgud--lldb-executable best-filename))))
 	    ;; else
 	    (progn
 	      (setq best-filename try-filename)
-	      (setq priority (realgud:lldb-executable best-filename))
+	      (setq priority (realgud--lldb-executable best-filename))
 	      ))
 	))
     (if (< priority 8)
 	(cond
-	 (realgud:lldb-minibuffer-history
-	  (car realgud:lldb-minibuffer-history))
+	 (realgud--lldb-minibuffer-history
+	  (car realgud--lldb-minibuffer-history))
 	 ((equal priority 7)
 	  (concat "lldb " best-filename))
 	 (t "lldb "))
@@ -221,7 +221,7 @@ When all else fails return the empty string."
       (concat "lldb " best-filename))
     ))
 
-(defun realgud:lldb-reset ()
+(defun realgud--lldb-reset ()
   "Lldb cleanup - remove debugger's internal buffers (frame,
 breakpoints, etc.)."
   (interactive)
@@ -240,9 +240,9 @@ breakpoints, etc.)."
 ;; 	  lldb-debugger-support-minor-mode-map-when-deactive))
 
 
-(defun realgud:lldb-customize ()
-  "Use `customize' to edit the settings of the `realgud:lldb' debugger."
+(defun realgud--lldb-customize ()
+  "Use `customize' to edit the settings of the `realgud--lldb' debugger."
   (interactive)
-  (customize-group 'realgud:lldb))
+  (customize-group 'realgud--lldb))
 
-(provide-me "realgud:lldb-")
+(provide-me "realgud--lldb-")
