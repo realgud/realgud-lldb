@@ -1,9 +1,9 @@
-;;; realgud-lldb.el --- realgud front-end to lldb
+;;; realgud-lldb.el --- Realgud front-end to lldb
 
 ;; Author: Rocky Bernstein
 ;; Version: 1.0.0
 ;; Package-Requires: ((load-relative "1.2") (cl-lib "0.5") (realgud "1.4.5") (emacs "24"))
-;; URL: http://github.com/rocky/realgud-lldb
+;; URL: http://github.com/realgud/realgud-lldb
 ;; Compatibility: GNU Emacs 24.x
 
 ;; Copyright (C) 2015, 2016, 2019 Free Software Foundation, Inc
