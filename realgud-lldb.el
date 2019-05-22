@@ -39,7 +39,7 @@
 (defgroup realgud-lldb  nil
   "Realgud interface to lldb"
   :group 'realgud
-  :version "24.3")
+  :version "25.1")
 
 (require-relative-list '( "./lldb/lldb" ) "realgud-")
 

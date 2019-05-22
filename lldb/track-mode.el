@@ -18,6 +18,7 @@
 
 (eval-when-compile (require 'cl-lib))
 
+(require 'load-relative)
 (require 'realgud)
 
 (require-relative-list '("core" "init") "realgud--lldb-")
