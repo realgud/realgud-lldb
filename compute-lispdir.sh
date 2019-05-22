@@ -24,7 +24,7 @@ done
 for dir in $list ; do
     if [[ -d $dir ]] ; then
 	case $dir in
-	    */emacs/2[34]\.[0-9]/site-lisp)
+	    */emacs/2[4-7]\.[0-9]/site-lisp)
 		((DEBUG)) && echo "versioned site lisp: $dir"
 		echo "$dir"
 		exit 0
@@ -35,7 +35,7 @@ done
 for dir in $list ; do
     if [[ -d $dir ]] ; then
 	case $dir in
-	    */emacs/2[34]\.[0-9]/site-lisp)
+	    */emacs/2[4-7]\.[0-9]/site-lisp)
 		((DEBUG)) && echo "versioned site lisp: $dir"
 		echo "$dir"
 		exit 0

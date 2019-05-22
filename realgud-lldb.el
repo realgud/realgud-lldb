@@ -1,4 +1,4 @@
-;;; realgud-lldb.el --- Realgud front-end to lldb
+;;; realgud-lldb.el --- Realgud front-end to lldb -*- lexical-binding: t -*-
 
 ;; Author: Rocky Bernstein
 ;; Version: 1.0.0
