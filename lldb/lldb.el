@@ -23,7 +23,7 @@
 (defgroup realgud--lldb nil
   "The realgud interface to lldb"
   :group 'realgud
-  :version "24.3")
+  :version "25.1")
 
 ;; -------------------------------------------------------------------
 ;; User definable variables

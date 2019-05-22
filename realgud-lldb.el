@@ -1,10 +1,10 @@
 ;;; realgud-lldb.el --- Realgud front-end to lldb -*- lexical-binding: t -*-
 
-;; Author: Rocky Bernstein
+;; Author: Rocky Bernstein <rocky@gnu.org>
 ;; Version: 1.0.0
 ;; Package-Requires: ((load-relative "1.2") (cl-lib "0.5") (realgud "1.4.5") (emacs "24"))
 ;; URL: http://github.com/realgud/realgud-lldb
-;; Compatibility: GNU Emacs 24.x
+;; Compatibility: GNU Emacs 25.x
 
 ;; Copyright (C) 2015, 2016, 2019 Free Software Foundation, Inc
 
@@ -26,6 +26,7 @@
 ;;; Commentary:
 
 ;; realgud support for the LLVM's debugger lldb
+;; See https://lldb.llvm.org/
 
 ;;; Code:
 
