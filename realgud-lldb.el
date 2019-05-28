@@ -2,7 +2,7 @@
 
 ;; Author: Rocky Bernstein <rocky@gnu.org>
 ;; Version: 1.0.1
-;; Package-Requires: ((load-relative "1.2") (cl-lib "0.5") (realgud "1.4.5") (emacs "25"))
+;; Package-Requires: ((load-relative "1.2") (realgud "1.5.0") (emacs "25"))
 ;; URL: http://github.com/realgud/realgud-lldb
 ;; Compatibility: GNU Emacs 25.x
 
