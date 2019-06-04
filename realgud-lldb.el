@@ -1,7 +1,7 @@
 ;;; realgud-lldb.el --- Realgud front-end to lldb -*- lexical-binding: t -*-
 
 ;; Author: Rocky Bernstein <rocky@gnu.org>
-;; Version: 1.0.1
+;; Version: 1.0.2
 ;; Package-Type: multi
 ;; Package-Requires: ((load-relative "1.3.1") (realgud "1.5.0") (emacs "25"))
 ;; URL: http://github.com/realgud/realgud-lldb
