@@ -4,7 +4,7 @@
 
 Emacs Lisp Module to add [lldb](https://lldb.llvm.org/) support to [realgud](http://github.com/realgud/realgud).
 
-[travis-image]: https://api.travis-ci.org/realgud-lldb/realgud.svg?branch=master
+[travis-image]: https://api.travis-ci.org/realgud/realgud-lldb.svg?branch=master
 [travis-url]: https://travis-ci.org/realgud/realgud-lldb
 [melpa-stable-image]: http://stable.melpa.org/packages/realgud-lldb-badge.svg
 [melpa-stable]: http://stable.melpa.org/#/realgud-lldb
