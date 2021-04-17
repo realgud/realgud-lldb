@@ -22,6 +22,7 @@
 (declare-function realgud-lang-mode? 'realgud-lang)
 (declare-function realgud-parse-command-arg 'realgud-core)
 (declare-function realgud-query-cmdline 'realgud-core)
+(declare-function realgud--file-matching-suffix 'realgud-file)
 
 ;; FIXME: I think the following could be generalized and moved to
 ;; realgud-... probably via a macro.
@@ -48,45 +49,47 @@
   value is associated filesystem string presumably in the
   filesystem")
 
-(defun realgud--lldb-find-file(cmd-marker filename directory)
-  "A find-file specific for lldb. We will prompt for a mapping and save that in
-`realgud--lldb-file-remap' when that works."
-  (let ((resolved-filename filename)
-	(remapped-filename (gethash filename realgud--lldb-file-remap)))
-    (cond
-     ((and remapped-filename (stringp remapped-filename)
-	   (file-exists-p remapped-filename)) remapped-filename)
-     ((file-exists-p filename) filename)
-     ('t
-      (setq resolved-filename
-	    (buffer-file-name
-	     (compilation-find-file (point-marker) filename nil "")))
-      (puthash filename resolved-filename realgud--lldb-file-remap)))
-     ))
+;; ;; FIXME: replace with realgud--file-matching-suffix when that
+;; ;; hits the streets
+;; (defun realgud--lldb-matching-suffix(paths suffix)
+;;   (seq-filter (lambda (x) (string-suffix-p suffix x)) paths))
 
-(defun realgud--cmd-lldb-break()
-  "Set a breakpoint storing mapping between a file and its basename"
-  (let* ((resolved-filename (realgud-expand-format "%X"))
-	 (cmdbuf (realgud-get-cmdbuf))
-	 (filename (file-name-nondirectory resolved-filename)))
+;; ;; FIXME this might not need to be needed with the newer realgud
+;; (defun realgud--lldb-find-file(filename cmd-marker)
+;;   "A find-file specific for lldb. We will prompt for a mapping and save that in
+;; `realgud--lldb-file-remap' when that works."
+;;   (let ((resolved-filename filename)
+;; 	(remapped-filename (gethash filename realgud--lldb-file-remap))
+;; 	(matching-list)
+;; 	(buffer-files))
+;;     (cond
+;;      ;; If this filename is already in a list of remapped file names, use that.
+;;      ((and remapped-filename (stringp remapped-filename)
+;; 	   (file-exists-p remapped-filename)) remapped-filename)
+;;      ;;
+;;      ((file-exists-p filename) filename)
 
-    ;; Save mapping from basename to long name so that we know what's
-    ;; up in a "Breakpoint set at" message
-    (puthash filename resolved-filename realgud--lldb-file-remap)
+;;      ;; If we can find filename, e.g. "src/code.c" as a suffix of file in
+;;      ;; the list of buffers seen, that user that
+;;      ((and
+;;        (setq buffer-files
+;; 	     (with-current-buffer (marker-buffer cmd-marker)
+;; 	       (mapcar (lambda (buf) (buffer-file-name buf))
+;; 		       (realgud-cmdbuf-info-srcbuf-list realgud-cmdbuf-info))))
+;;        (setq matching-list (realgud--lldb-matching-suffix buffer-files filename))
+;;        (car matching-list)))
+;;      (t nil)
+;;      )))
 
-    ;; Run actual command
-    (realgud:cmd-break)
-    ))
-
-
-;; FIXME: setting a breakpoint should add a[ file-to-basename mapping
-;; so that when this is called it can look up the short name and
-;; remap it.
-(defun realgud--lldb-loc-fn-callback(text filename lineno source-str
-					 cmd-mark directory column)
-  (realgud:file-loc-from-line filename lineno
-			      cmd-mark source-str nil nil directory))
-			      ;; 'realgud--lldb-find-file directory))
+;; ;; FIXME this might not need to be needed with the newer realgud
+;; (defun realgud--lldb-loc-fn-callback(text filename lineno source-str
+;; 					  cmd-mark directory column)
+;;   (let ((resolved-filename
+;; 	 (or (realgud--lldb-find-file filename cmd-mark) filename)))
+;;     (realgud:file-loc-from-line resolved-filename lineno
+;; 				cmd-mark source-str nil nil directory)
+;;     ;; 'realgud--lldb-find-file directory
+;;   ))
 
 (defun realgud--lldb-parse-cmd-args (orig-args)
   "Parse command line ARGS for the annotate level and name of script to debug.

@@ -55,7 +55,8 @@ the debugger specific hash table, e.g. 'realugd-lldd-pat-hash'.")
   (format "[ ]*\\(?:frame \\)?#%s[:]? "
 	  realgud:regexp-captured-num))
 
-(setf (gethash "loc-callback-fn" realgud--lldb-pat-hash) 'realgud--lldb-loc-fn-callback)
+;; Not needed if realgud-20190724.2001 or later is used
+;; (setf (gethash "loc-callback-fn" realgud--lldb-pat-hash) 'realgud--lldb-loc-fn-callback)
 
 ;; realgud-loc-pat that describes a lldb location generally shown
 ;; before a command prompt.
