@@ -15,7 +15,7 @@ include common.mk
 
 PHONY=check clean dist distclean test check-short check-terse install-short
 
-EXTRA_DIST = common.mk.in INSTALL.md README.md THANKS $(lisp_files)
+EXTRA_DIST = common.mk.in README.md THANKS $(lisp_files)
 
 if MAINTAINER_MODE
 
