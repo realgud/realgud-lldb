@@ -3,15 +3,15 @@
 [![MELPA Stable][melpa-stable-image]][melpa-stable]
 
 Introduction
-------------
+============
 
 Emacs Lisp Module to add [lldb](https://lldb.llvm.org/) support to [realgud](http://github.com/realgud/realgud).
 
 Installation
-------------
+=============
 
 From ELPA or MELPA
-++++++++++++++++++
+-------------------
 
 Inside GNU Emacs evaluate:
 
@@ -21,7 +21,7 @@ Inside GNU Emacs evaluate:
 
 
 From github source
-++++++++++++++++++
+------------------
 
 * Have `realgud` and `test-simple` installed.
 * From inside GNU Emacs, evaluate:
