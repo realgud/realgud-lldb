@@ -87,7 +87,7 @@ fringe and marginal icons.
 	  ;; Unfortunately lldb only emits base file names
 	  ;; when setting breakpoints,
 	  ;; so we still show an unhelpful prompt at that time.
-	  (realgud-command "settings set frame-format frame #${frame.index}: ${frame.pc}{ ${module.file.basename}{\`${function.name}}}{ at ${line.file.fullpath}:${line.number}}\n"
+	  (realgud-command "settings set frame-format frame #${frame.index}: ${frame.pc}{ ${module.file.basename}{\`${function.name}}}{ at ${line.file.fullpath}:${line.number}}\\n"
 			   nil nil nil)
 	  (realgud:remove-ansi-schmutz)
 	  )
