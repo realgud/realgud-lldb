@@ -1,4 +1,4 @@
-;; Copyright (C) 2019 Free Software Foundation, Inc
+;; Copyright (C) 2019, 2026 Free Software Foundation, Inc
 ;; Author: Rocky Bernstein <rocky@gnu.org>
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -35,7 +35,7 @@
   :inherit minibuffer-local-map)
 
 ;; FIXME: I think this code and the keymaps and history
-;; variable chould be generalized, perhaps via a macro.
+;; variable should be generalized, perhaps via a macro.
 (defun realgud--lldb-query-cmdline (&optional opt-debugger)
   (realgud-query-cmdline
    'realgud--lldb-suggest-invocation
@@ -92,22 +92,25 @@
 ;;   ))
 
 (defun realgud--lldb-parse-cmd-args (orig-args)
-  "Parse command line ARGS for the annotate level and name of script to debug.
+  "Parse command line ARGS for the annotate level and name of script
+to debug.
 
 ORIG_ARGS should contain a tokenized list of the command line to run.
 
 We return the a list containing
-* the name of the debugger given (e.g. lldb) and its arguments - a list of strings
-* nil (a placehoder in other routines of this ilk for a debugger
+* the name of the debugger given (e.g. lldb) and its arguments -
+  a list of strings
+* nil (a placeholder in other routines of this ilk for a debugger
 * the script name and its arguments - list of strings
-* whether the emacs option was given ('--emacs) - a boolean
+* whether the emacs option was given (\"--emacs\") - a boolean
 
-For example for the following input
+For example for the following input:
   (map 'list 'symbol-name
    '(lldb --tty /dev/pts/1 -cd ~ --emacs ./gcd.py a b))
 
 we might return:
-   ((\"lldb\" \"--tty\" \"/dev/pts/1\" \"-cd\" \"home/rocky\' \"--emacs\") nil \"(/tmp/gcd.py a b\") 't\")
+   ((\"lldb\" \"--tty\" \"/dev/pts/1\" \"-cd\" \"home/rocky\"
+     \"--emacs\") nil \"(/tmp/gcd.py a b\") 't\")
 
 Note that path elements have been expanded via `expand-file-name'.
 "
@@ -185,7 +188,8 @@ Note that path elements have been expanded via `expand-file-name'.
 
 (defun realgud--lldb-suggest-invocation (&optional debugger-name)
   "Suggest a lldb command invocation. Here is the priority we use:
-* an executable file with the name of the current buffer stripped of its extension
+* an executable file with the name of the current buffer stripped
+  of its extension
 * any executable file in the current directory with no extension
 * the last invocation in lldb:minibuffer-history
 * any executable in the current directory

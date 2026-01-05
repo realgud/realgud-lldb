@@ -1,4 +1,4 @@
-;; Copyright (C) 2016-2019 Free Software Foundation, Inc
+;; Copyright (C) 2016-2019, 2026 Free Software Foundation, Inc
 ;; Author: Rocky Bernstein <rocky@gnu.org>
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -14,7 +14,7 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-;;  `realgud--lldb' Main interface to lldb via Emacs
+;;;  `realgud--lldb' Main interface to lldb via Emacs
 (require 'load-relative)
 (require 'realgud)
 (require-relative-list '("core" "track-mode") "realgud--lldb-")
@@ -24,7 +24,7 @@
 (defgroup realgud--lldb nil
   "The realgud interface to lldb"
   :group 'realgud
-  :version "25.1")
+  :version "27.1")
 
 ;; -------------------------------------------------------------------
 ;; User definable variables

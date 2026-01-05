@@ -1,4 +1,4 @@
-;; Copyright (C) 2019 Free Software Foundation, Inc
+;; Copyright (C) 2019, 2026 Free Software Foundation, Inc
 ;; Author: Rocky Bernstein <rocky@gnu.org>
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -27,8 +27,8 @@ realgud-loc-pat struct")
 
 (defvar realgud-pat-hash
   nil
-  "A buffer local hash table which maps a debugger name, .e.g. 'lldb' to its
-the debugger specific hash table, e.g. 'realugd-lldd-pat-hash'.")
+  "A buffer local hash table which maps a debugger name, .e.g. \"lldb\" to its
+the debugger specific hash table, e.g. \"realgud-lldd-pat-hash\".")
 (declare-function make-realgud-loc-pat (realgud-loc))
 
 (declare-function make-realgud-loc "realgud-loc" (a b c d e f))
@@ -42,8 +42,11 @@ the debugger specific hash table, e.g. 'realugd-lldd-pat-hash'.")
 ;;   SolidityParserError.cpp:102
 ;;
 ;; Note the minimal-match regexp up to the first colon
+;; The line column we have a null condition so that we
+;; always have a pattern match for the column.
+;; It may be nil though.
 (defconst realgud--lldb-file-col-regexp
-  (format "\\(.+?\\):%s\\(?::%s\\)?"
+  (format "\\(.+?\\):%s\\(?::\\(%s\\)\\|\\(\\)\\)"
 	  realgud:regexp-captured-num
 	  realgud:regexp-captured-num))
 
@@ -180,8 +183,8 @@ the debugger specific hash table, e.g. 'realugd-lldd-pat-hash'.")
 (setf (gethash "lldb" realgud:variable-basename-hash) "realgud--lldb")
 
 (defvar realgud--lldb-command-hash (make-hash-table :test 'equal)
-  "Hash key is command name like 'continue' and the value is
-  the lldb command to use, like 'process continue'")
+  "Hash key is command name like \"continue\" and the value is
+  the lldb command to use, like \"process continue\"")
 
 (setf (gethash "backtrace"        realgud--lldb-command-hash) "bt")
 (setf (gethash "break"            realgud--lldb-command-hash) "b %X:%l")
@@ -189,7 +192,7 @@ the debugger specific hash table, e.g. 'realugd-lldd-pat-hash'.")
 (setf (gethash "delete"           realgud--lldb-command-hash) "break delete %p")
 (setf (gethash "clear"            realgud--lldb-command-hash) "break clear %X:%l")
 (setf (gethash "continue"         realgud--lldb-command-hash) "process continue")
-(setf (gethash "delete"           realgud--lldb-command-hash) "*not-implemented*")  ;; Or rather don't know what the equvalent is
+(setf (gethash "delete"           realgud--lldb-command-hash) "*not-implemented*")  ;; Or rather don't know what the equivalent is
 (setf (gethash "delete_all"       realgud--lldb-command-hash) "*not-implemented*")
 (setf (gethash "disable"          realgud--lldb-command-hash) "break disable %p")
 (setf (gethash "disable-all"      realgud--lldb-command-hash) "break disable")

@@ -1,12 +1,11 @@
 dnl FIXME: pick up from realgud.el
-AC_INIT(realgud-lldb, 1.0.2,)
+AC_INIT([realgud-lldb],[1.0.2],[])
 AC_CONFIG_SRCDIR(lldb/lldb.el)
 AM_INIT_AUTOMAKE([foreign])
 AM_MAINTAINER_MODE
 
 AC_PATH_PROG([EMACS], [emacs], [emacs])
-AC_ARG_WITH(emacs, AC_HELP_STRING([--with-emacs],
-                  [location of emacs program]), EMACS=$withval)
+AC_ARG_WITH(emacs, AS_HELP_STRING([--with-emacs],[location of emacs program]), EMACS=$withval)
 
 AC_MSG_NOTICE("Checking emacs version")
 $EMACS -batch -q --no-site-file -eval \

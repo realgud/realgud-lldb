@@ -1,4 +1,4 @@
-;; Copyright (C) 2019 Free Software Foundation, Inc
+;; Copyright (C) 2019, 2026 Free Software Foundation, Inc
 ;; Author: Rocky Bernstein <rocky@gnu.org>
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -42,7 +42,9 @@
 (define-minor-mode realgud--lldb-track-mode
   "Minor mode for tracking lldb inside a process shell via realgud.
 
-If called interactively with no prefix argument, the mode is toggled. A prefix argument, captured as ARG, enables the mode if the argument is positive, and disables it otherwise.
+If called interactively with no prefix argument, the mode is
+toggled. A prefix argument, captured as ARG, enables the mode if
+the argument is positive, and disables it otherwise.
 
 Key bindings:
 \\{realgud--lldb-track-mode-map}
